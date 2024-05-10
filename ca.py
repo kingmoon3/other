@@ -139,7 +139,6 @@ if __name__ == "__main__":
         sortno.append(dfall.columns.get_loc(i))
 
     dfall = dfall.iloc[:, sortno]
-    # print(dfall)
 
     pivot = dfall.pivot_table(index='客户名称', values=[
                               '入库数量', '含税金额'], aggfunc='sum')
@@ -217,13 +216,7 @@ if __name__ == "__main__":
         workbook.add_format({})
         onlydate = pivot2.reset_index(inplace=False)[
             "入库日期"].drop_duplicates(keep='first', inplace=False)
-        # pivot3_sum = pd.DataFrame(pivot3.sum()).T
-        # print('pivot3_sum:', '\n', pivot3_sum)
-        # pivot3_pivot_sum = pivot3.append(pivot3_sum)
-        # print('pivot3_pivot_sum:', '\n', pivot3_pivot_sum)
-        # pivot3_pivot_sum = pivot3_pivot_sum.rename(index={0: u'合计'})
-        # print('pivot3_pivot_sum:', '\n', pivot3_pivot_sum)
-        # pivot3_pivot_sum.to_excel('111.xlsx', encoding="utf-8")
+
         pivot3 = pd.DataFrame(pivot3)
         pivot3 = pivot3 / 1000
         pivot3.insert(0, "月合计", pivot3.apply(lambda x: x.sum(), axis=1))
@@ -232,25 +225,10 @@ if __name__ == "__main__":
         pivot4 = pivot4 / 1000
         pivot4.insert(0, "月合计", pivot4.apply(lambda x: x.sum(), axis=1))
         pivot4.insert(1, "日均", pivot4["月合计"] / len(onlydate))
-        # print(pivot3)
+
         pivot3.to_excel('型号透视.xlsx')
         pivot4.to_excel('型号透视2.xlsx')
-        # pivot3 = pivot3.reset_index()
-        # # print(pivot3)
-        # tuples = [tuple(x) for x in pivot3.values]
-        # # print(tuples)
-        # row = 1
-        # col = 0
 
-        # for item, count, amount in tuples:
-        #     worksheet.write(row, col, item)
-        #     worksheet.write(row, col + 1, count)
-        #     worksheet.write(row, col + 2, amount)
-        #     row += 1
-        # # worksheet.write_formula(
-        # #     'H2', '=IFERROR(VLOOKUP(INDIRECT("E"&ROW()),Sheet1!$A:$B,2,0)/1000,0)')
-        # workbook.close()
-        # # =IFERROR(VLOOKUP(INDIRECT("E"&ROW()),Sheet1!$A:$B,2,0)/1000,0)
         with pd.ExcelWriter("透视表.xlsx", engine='openpyxl') as writer:
             pivot.to_excel(excel_writer=writer, index='客户名称')
             # pivot2.to_excel(excel_writer=writer, index=['入库日期', '客户名称'], startcol=5)
