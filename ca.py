@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Date    : 2021-09-11 16:52:57
-# @Author  : Kingxujw (kingxujw@gmail.com)
-# @Link    : https://www.github.com/kingmoon3/
-# @Version : 1.0
-
 import os
 import pandas as pd
 import sys
